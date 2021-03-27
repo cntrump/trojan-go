@@ -1,11 +1,11 @@
 FROM golang:alpine AS builder
 WORKDIR /
-RUN apk add git make &&\
-    git clone https://github.com/p4gefau1t/trojan-go.git &&\
-    cd trojan-go &&\
-    make &&\
-    wget https://github.com/v2fly/domain-list-community/raw/release/dlc.dat -O build/geosite.dat &&\
-    wget https://github.com/v2fly/geoip/raw/release/geoip.dat -O build/geoip.dat
+RUN apk add git make curl
+RUN git clone https://github.com/cntrump/trojan-go.git && \
+    cd trojan-go && \
+    make && \
+    curl -L https://github.com/v2fly/domain-list-community/raw/release/dlc.dat > build/geosite.dat && \
+    curl -L https://github.com/v2fly/geoip/raw/release/geoip.dat > build/geoip.dat
 
 FROM alpine
 WORKDIR /
