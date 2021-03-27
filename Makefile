@@ -6,7 +6,7 @@ COMMIT := `git rev-parse HEAD`
 PLATFORM := linux
 BUILD_DIR := build
 VAR_SETTING := -X $(PACKAGE_NAME)/constant.Version=$(VERSION) -X $(PACKAGE_NAME)/constant.Commit=$(COMMIT)
-GOBUILD = env CGO_ENABLED=0 $(GO_DIR)go build -tags "full" -trimpath -ldflags="-s -w -buildid= $(VAR_SETTING)" -o $(BUILD_DIR)
+GOBUILD = env CGO_ENABLED=1 $(GO_DIR)go build -tags "full" -trimpath -ldflags="-linkmode external -s -w -buildid= $(VAR_SETTING)" -o $(BUILD_DIR)
 
 .PHONY: trojan-go release test
 normal: clean trojan-go
@@ -17,10 +17,10 @@ clean:
 	rm -f *.dat
 
 geoip.dat:
-	wget https://github.com/v2fly/geoip/raw/release/geoip.dat
+	curl -OL https://github.com/v2fly/geoip/raw/release/geoip.dat
 
 geosite.dat:
-	wget https://github.com/v2fly/domain-list-community/raw/release/dlc.dat -O geosite.dat
+	curl -L https://github.com/v2fly/domain-list-community/raw/release/dlc.dat > geosite.dat
 
 test:
 	# Disable Bloomfilter when testing
