@@ -1,6 +1,6 @@
 FROM golang:alpine AS builder
 WORKDIR /
-RUN apk add git make curl
+RUN apk add git make curl gcc g++
 RUN git clone https://github.com/cntrump/trojan-go.git && \
     cd trojan-go && \
     make && \
