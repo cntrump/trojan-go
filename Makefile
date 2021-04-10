@@ -67,11 +67,24 @@ release: geosite.dat geoip.dat darwin-amd64.zip darwin-arm64.zip linux-386.zip l
 
 darwin-amd64:
 	mkdir -p $(BUILD_DIR)/$@
-	GOARCH=amd64 GOOS=darwin $(GOBUILD)/$@
+	GOARCH=amd64 GOOS=darwin \
+	CGO_CFLAGS="-mmacosx-version-min=10.12 -arch x86_64 -isysroot `xcrun --sdk macosx --show-sdk-path`" \
+	CGO_LDFLAGS="-mmacosx-version-min=10.12 -arch x86_64 -isysroot `xcrun --sdk macosx --show-sdk-path`" \
+	$(GOBUILD)/$@
 
 darwin-arm64:
 	mkdir -p $(BUILD_DIR)/$@
-	GOARCH=arm64 GOOS=darwin $(GOBUILD)/$@
+	GOARCH=arm64 GOOS=darwin \
+	CGO_CFLAGS="-mmacosx-version-min=10.12 -arch arm64 -isysroot `xcrun --sdk macosx --show-sdk-path`" \
+	CGO_LDFLAGS="-mmacosx-version-min=10.12 -arch arm64 -isysroot `xcrun --sdk macosx --show-sdk-path`" \
+	$(GOBUILD)/$@
+
+ios-arm64:
+	mkdir -p $(BUILD_DIR)/$@
+	GOARCH=arm64 GOOS=ios \
+	CGO_CFLAGS="-miphoneos-version-min=10.0 -arch arm64 -isysroot `xcrun --sdk iphoneos --show-sdk-path`" \
+	CGO_LDFLAGS="-miphoneos-version-min=10.0 -arch arm64 -isysroot `xcrun --sdk iphoneos --show-sdk-path`" \
+	$(GOBUILD)/$@
 
 linux-386:
 	mkdir -p $(BUILD_DIR)/$@
