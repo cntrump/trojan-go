@@ -146,6 +146,10 @@ freebsd-amd64:
 	mkdir -p $(BUILD_DIR)/$@
 	GOARCH=amd64 GOOS=freebsd $(GOBUILD)/$@
 
+freebsd-arm64:
+	mkdir -p $(BUILD_DIR)/$@
+	GOARCH=arm64 GOOS=freebsd $(GOBUILD)/$@
+
 windows-386:
 	mkdir -p $(BUILD_DIR)/$@
 	GOARCH=386 GOOS=windows $(GOBUILD)/$@
